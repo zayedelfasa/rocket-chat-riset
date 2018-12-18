@@ -1,0 +1,40 @@
+{
+  "name": "rocket_chat_riset",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@shoutem/ui": "^0.23.9",
+    "apisauce": "^1.0.1",
+    "axios": "^0.18.0",
+    "queueing-subject": "^0.3.0",
+    "react": "16.6.1",
+    "react-native": "0.57.7",
+    "react-native-elements": "^0.19.1",
+    "react-native-gifted-chat": "^0.5.0",
+    "react-native-iphone-x-helper": "^1.2.0",
+    "react-native-material-ui": "^1.30.1",
+    "react-native-responsive-dimensions": "^2.0.1",
+    "react-native-textinput-effects": "^0.4.2",
+    "react-native-uuid": "^1.4.9",
+    "react-native-uuid-generator": "^5.0.0",
+    "react-native-vector-icons": "^6.1.0",
+    "react-navigation": "^2.18.2",
+    "react-navigation-slide-from-right-transition": "^1.0.4",
+    "remx": "^2.0.51",
+    "rxjs": "^6.3.3",
+    "rxjs-websockets": "^6.0.3"
+  },
+  "devDependencies": {
+    "babel-jest": "23.6.0",
+    "jest": "23.6.0",
+    "metro-react-native-babel-preset": "0.50.0",
+    "react-test-renderer": "16.6.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
