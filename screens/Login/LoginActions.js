@@ -22,6 +22,7 @@ export async function fetch_login(username, password) {
             await AsyncStorage.setItem(String_local_storage.user_login_id, res.data.data.userId);
             await AsyncStorage.setItem(String_local_storage.user_login_token, res.data.data.authToken);
             await AsyncStorage.setItem(String_local_storage.user_name, res.data.data.me.name);
+            await AsyncStorage.setItem(String_local_storage.user_password, password);
             await LoginStore.set_status_success_login(true);
             // console.log("Set status login on login actions : ", LoginStore.get_status_success_login());
         }

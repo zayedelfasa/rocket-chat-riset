@@ -29,6 +29,29 @@ class HomeScreen extends Component {
         // await HomeActions.get_room_list(this.state.token, this.state.user_id);
 
         this.show_room_list();
+
+        this.penjumlahan(3,3);
+    }
+
+    penjumlahan(a, b) {
+        for (var x = 0; x < 50; x++) {
+            var val_return = "a";
+            var tot_val = 0;
+            for (var i = 0; i < (a + b); i++) {
+                var s = (Math.floor((Math.random() * 2) + 1));
+                // console.log("Nilai S : " , s);
+                for (j = 0; j < s; j++) {
+                    if (tot_val < (a + b)) {
+                        // console.log("tot_val : " + tot_val.toString() + " a+b " + (a+b).toString());
+                        console.log("NILAI ADALAH : " + val_return);
+                    }
+                    tot_val++;
+                }
+                val_return == "a" ? val_return = "b" : val_return = "a";
+                // tot_val = tot_val + s;
+            }
+            console.log("--------------------------");
+        }
     }
 
     async show_room_list() {
@@ -50,6 +73,9 @@ class HomeScreen extends Component {
         {console.log("DATA lastMessage " ,room.item.hasOwnProperty('lastMessage'))}
         return (
             <ListItem
+                onPress = {() => {this.props.navigation.navigate("PageChatRoom", {
+                    room_id : room.item._id
+                })}}
                 title={room.item.name}
                 subtitle={room.item.hasOwnProperty('lastMessage') ? room.item.lastMessage.msg : "Belum Ada Pesan"}
                 containerStyle={{ borderBottomWidth: 0 }}
@@ -58,42 +84,50 @@ class HomeScreen extends Component {
         );
     }
 
+    // render() {
+    //     return (
+    //         <View style={{
+    //             flex: 1
+    //         }}>
+    //             <NavigationEvents
+    //                 // onWillFocus={payload => console.log('will focus', payload)}
+    //                 onDidFocus={payload => {
+    //                     console.log('did focus', payload);
+    //                     if(payload.lastState.routeName == "PageDrawerHome") {
+    //                         console.log("MASUK")
+    //                         this.show_room_list();
+    //                     }
+    //                 }}
+    //                 // onWillBlur={payload => console.log('will blur', payload)}
+    //                 // onDidBlur={payload => console.log('did blur', payload)}
+    //             />
+    //             {
+    //                 this.props.is_loading == false ?
+    //                     <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0, marginTop: 0 }}>
+    //                         <FlatList
+    //                             data={this.props.room_list}
+    //                             showsVerticalScrollIndicator={false}
+    //                             renderItem={this.renderRow}
+    //                             keyExtractor={item => item._id}
+    //                         />
+    //                     </List>
+    //                     :
+    //                     <View style={{
+    //                         flex: 1,
+    //                         alignItems: 'center',
+    //                         justifyContent: 'center',
+    //                     }}>
+    //                         <ActivityIndicator size="large" color={Colors.grey} />
+    //                     </View>
+    //             }
+    //         </View>
+    //     )
+    // }
+
     render() {
         return (
-            <View style={{
-                flex: 1
-            }}>
-                <NavigationEvents
-                    // onWillFocus={payload => console.log('will focus', payload)}
-                    onDidFocus={payload => {
-                        console.log('did focus', payload);
-                        if(payload.lastState.routeName == "PageDrawerHome") {
-                            console.log("MASUK")
-                            this.show_room_list();
-                        }
-                    }}
-                    // onWillBlur={payload => console.log('will blur', payload)}
-                    // onDidBlur={payload => console.log('did blur', payload)}
-                />
-                {
-                    this.props.is_loading == false ?
-                        <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0, marginTop: 0 }}>
-                            <FlatList
-                                data={this.props.room_list}
-                                showsVerticalScrollIndicator={false}
-                                renderItem={this.renderRow}
-                                keyExtractor={item => item._id}
-                            />
-                        </List>
-                        :
-                        <View style={{
-                            flex: 1,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}>
-                            <ActivityIndicator size="large" color={Colors.grey} />
-                        </View>
-                }
+            <View>
+
             </View>
         )
     }
