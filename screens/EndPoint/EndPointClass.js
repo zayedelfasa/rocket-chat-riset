@@ -29,6 +29,18 @@ export default class EndPointClass {
         return endPoint.http + "/api/v1/groups.create";
     }
 
+    channel_invite_user_post() {
+        return endPoint.http + "/api/v1/groups.invite";
+    }
+
+    channel_user_list_get() {
+        return endPoint.http + "/api/v1/users.list";
+    }
+
+    user_register_post() {
+        return endPoint.http + "/api/v1/users.register";
+    }
+
     websocket_link() {
         return endPoint.ws;
     }
@@ -45,6 +57,3 @@ export default class EndPointClass {
         return JSON.stringify({ "msg": "ping" });
     }
 }
-
-// 
-// 

@@ -3,12 +3,12 @@ import { Platform, StyleSheet, View, Alert, StatusBar, Image, TouchableOpacity, 
 import { NavigationActions } from 'react-navigation';
 import Styles from '../../styles/Styles';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import { Hideo } from 'react-native-textinput-effects';
 import Colors from '../../styles/Colors';
 import * as LoginActions from './LoginActions';
 import { LoginStore } from './LoginStore';
 import { connect } from 'remx';
 import { Examples, Title, TextInput, Button, Text } from '@shoutem/ui';
+const getClassName = "LoginScreen";
 
 class LoginScreen extends Component {
     constructor(props) {
@@ -31,6 +31,11 @@ class LoginScreen extends Component {
         await LoginActions.fetch_login(username, pass);
     }
 
+    go_to_register = () => {
+        console.log("go_to_register");
+        this.props.navigation.navigate("RegisterStack");
+    }
+
     componentWillReceiveProps(newProps) {
         console.log("DATA componentWillReceiveProps", newProps.stat_login);
         if (newProps.stat_login) {
@@ -48,29 +53,10 @@ class LoginScreen extends Component {
 
     render() {
         return (
-            // <View style={styles.container}>
-            //     <TextInput style={styles.input}
-            //         underlineColorAndroid="transparent"
-            //         placeholder="Email"
-            //         placeholderTextColor="#9a73ef"
-            //         autoCapitalize="none"
-            //         onChangeText={this.handleEmail} />
-            //     <TextInput style={styles.input}
-            //         underlineColorAndroid="transparent"
-            //         placeholder="Password"
-            //         placeholderTextColor="#9a73ef"
-            //         autoCapitalize="none"
-            //         onChangeText={this.handlePassword} />
-            //     <TouchableOpacity
-            //         style={styles.submitButton}
-            //         onPress={
-            //             () => this.login(this.state.nama_pengguna, this.state.kata_sandi)
-            //         }>
-            //         <Text style={styles.submitButtonText}> Login </Text>
-            //     </TouchableOpacity>
-            // </View>
             <View style={styles.container}>
-                <Title>LOGIN CHAT</Title>
+                <View style={[styles.input, {alignItems: 'center'}]}>
+                    <Title>Login Chat</Title>
+                </View>
                 <TextInput
                     style={styles.input}
                     placeholder={"Email"}
@@ -80,9 +66,12 @@ class LoginScreen extends Component {
                     placeholder={"Password"}
                     secureTextEntry
                     onChangeText={this.handlePassword} />
-                <Button styleName="secondary" onPress = {() => this.login(this.state.nama_pengguna, this.state.kata_sandi)}>
+                <Button styleName="secondary" onPress={() => this.login(this.state.nama_pengguna, this.state.kata_sandi)}>
                     <Text>Login</Text>
                 </Button>
+                <TouchableOpacity style={[styles.input, { alignItems: 'center', marginTop: 5 }]} onPress={this.go_to_register}>
+                    <Title>New Register</Title>
+                </TouchableOpacity>
             </View>
         )
     }
