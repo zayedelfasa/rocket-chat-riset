@@ -3,7 +3,7 @@ import EndPoint from '../EndPoint/EndPointClass';
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import String_local_storage from '../../configs/String_local_storage';
-const RoomCreateActions = "RoomCreateActions";
+const RoomCreateActions = "RoomCreateActions : ";
 
 export async function fetch_create_room(token, user_id, room_name) {
     console.log(RoomCreateActions + " token " + token);
@@ -12,7 +12,7 @@ export async function fetch_create_room(token, user_id, room_name) {
 
     RoomCreateStore.set_status_success_create_room(true);
 
-    await axios.post(new EndPoint().channel_create_room() , {
+    await axios.post(new EndPoint().channel_create_room_post() , {
         'name' : room_name
     } ,{
         headers: {

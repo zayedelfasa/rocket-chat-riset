@@ -35,15 +35,16 @@ class RoomCreateScreen extends Component {
     componentWillReceiveProps(newProps) {
         console.log("DATA componentWillReceiveProps", newProps.stat_login);
         if (!newProps.stat_loading) {
-            this.props.navigation.setParams({ name: 'Lucy' })
-            this.props.navigation.goBack(null, { name: 'Lucy' });
+            // this.props.navigation.setParams({ name: 'Lucy' })
+            this.props.navigation.goBack();
         }
     }
 
     // componentDidUpdate(prevProps) {
     //     console.log(this.props.stat_login);
+    
     // }
-
+    
     componentDidMount() {
 
     }

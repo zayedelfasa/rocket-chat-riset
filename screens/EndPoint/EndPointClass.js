@@ -25,8 +25,12 @@ export default class EndPointClass {
         // return "/api/v1/groups.list";
     }
 
-    channel_create_room() {
+    channel_create_room_post() {
         return endPoint.http + "/api/v1/groups.create";
+    }
+
+    channel_group_invite_post() {
+      return endPoint.http + "/api/v1/groups.invite";
     }
 
     websocket_link() {
@@ -45,6 +49,3 @@ export default class EndPointClass {
         return JSON.stringify({ "msg": "ping" });
     }
 }
-
-// 
-// 
