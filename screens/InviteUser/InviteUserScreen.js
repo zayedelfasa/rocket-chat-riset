@@ -9,37 +9,37 @@ import { InviteUserStore } from './InviteUserStore';
 import { connect } from 'remx';
 import { Examples, Title, TextInput, Button, Text } from '@shoutem/ui';
 import String_local_storage from '../../configs/String_local_storage';
-import {NavigationEvents} from 'react-navigation';
+import { NavigationEvents } from 'react-navigation';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 
 const getNameClass = "InviteUserScreen : ";
 
 const items = [
-    {  
-      name: "Fruits",
-      id: 0
+    {
+        name: "Fruits",
+        id: 0
     },
     {
-      name: "Gems",
-      id: 1
+        name: "Gems",
+        id: 1
     },
     {
-      name: "Plants",
-      id: 2
+        name: "Plants",
+        id: 2
     },
-  ]
+]
 
 class InviteUserScreen extends Component {
     constructor(props) {
         super(props);
-        const {navigation} = this.props;
+        const { navigation } = this.props;
         this.state = {
             user_room: "",
             selectedItems: [],
             room_id: navigation.getParam("room_id", null)
         }
-
         console.log(getNameClass + " room_id : " + navigation.getParam("room_id", null));
+        InviteUserActions.initialize_all_store();
     }
 
     handleEmail = (text) => {
@@ -51,10 +51,18 @@ class InviteUserScreen extends Component {
         // if (!newProps.stat_loading) {
         //     this.props.navigation.goBack();
         // }
+        let selectedItems = [];
+        console.log("DATA componentWillReceiveProps", JSON.stringify(newProps.user_on_group));
+        for (let key in newProps.user_on_group) {
+            console.log(getNameClass + " ARRAY VALUE " + newProps.user_on_group[key].name);
+            selectedItems.push(newProps.user_on_group[key].name);
+        }
+        this.setState({ selectedItems });
     }
 
     onSelectedItemsChange = (selectedItems) => {
         this.setState({ selectedItems });
+        console.log(getNameClass + " onSelectedItemsChange selectedItems : " + this.state.selectedItems);
     }
 
     on_invite_new_user = async () => {
@@ -67,8 +75,9 @@ class InviteUserScreen extends Component {
         const username = await AsyncStorage.getItem(String_local_storage.user_login_id);
         const user_token = await AsyncStorage.getItem(String_local_storage.user_login_token);
         InviteUserActions.fetch_user_list(user_token, username);
+        InviteUserActions.fetch_user_list_on_group(user_token, username, this.state.room_id);
         console.log(getNameClass + " all user : " + InviteUserStore.get_response_all_user());
-    }   
+    }
 
     render() {
         return (
@@ -98,7 +107,8 @@ class InviteUserScreen extends Component {
 
 function mapStateToProps(ownProps) {
     return {
-        user_list: InviteUserStore.get_response_all_user()
+        user_list: InviteUserStore.get_response_all_user(),
+        user_on_group: InviteUserStore.get_response_user_on_group()
     }
 }
 
@@ -107,7 +117,7 @@ export default connect(mapStateToProps)(InviteUserScreen);
 
 const styles = StyleSheet.create({
     container: {
-        padding: 10, 
+        padding: 10,
         flex: 1
     },
     input: {

@@ -37,6 +37,10 @@ export default class EndPointClass {
         return endPoint.http + "/api/v1/users.list";
     }
 
+    channel_group_user_list_get(room_id) {
+        return endPoint.http + "/api/v1/groups.members?roomId="+room_id;
+    }
+
     user_register_post() {
         return endPoint.http + "/api/v1/users.register";
     }

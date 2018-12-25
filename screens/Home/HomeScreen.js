@@ -84,53 +84,53 @@ class HomeScreen extends Component {
         );
     }
 
-    // render() {
-    //     return (
-    //         <View style={{
-    //             flex: 1
-    //         }}>
-    //             <NavigationEvents
-    //                 // onWillFocus={payload => console.log('will focus', payload)}
-    //                 onDidFocus={payload => {
-    //                     console.log('did focus', payload);
-    //                     if(payload.lastState.routeName == "PageDrawerHome") {
-    //                         console.log("MASUK")
-    //                         this.show_room_list();
-    //                     }
-    //                 }}
-    //                 // onWillBlur={payload => console.log('will blur', payload)}
-    //                 // onDidBlur={payload => console.log('did blur', payload)}
-    //             />
-    //             {
-    //                 this.props.is_loading == false ?
-    //                     <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0, marginTop: 0 }}>
-    //                         <FlatList
-    //                             data={this.props.room_list}
-    //                             showsVerticalScrollIndicator={false}
-    //                             renderItem={this.renderRow}
-    //                             keyExtractor={item => item._id}
-    //                         />
-    //                     </List>
-    //                     :
-    //                     <View style={{
-    //                         flex: 1,
-    //                         alignItems: 'center',
-    //                         justifyContent: 'center',
-    //                     }}>
-    //                         <ActivityIndicator size="large" color={Colors.grey} />
-    //                     </View>
-    //             }
-    //         </View>
-    //     )
-    // }
-
     render() {
         return (
-            <View>
-
+            <View style={{
+                flex: 1
+            }}>
+                <NavigationEvents
+                    // onWillFocus={payload => console.log('will focus', payload)}
+                    onDidFocus={payload => {
+                        console.log('did focus', payload);
+                        if(payload.lastState.routeName == "PageDrawerHome") {
+                            console.log("MASUK")
+                            this.show_room_list();
+                        }
+                    }}
+                    // onWillBlur={payload => console.log('will blur', payload)}
+                    // onDidBlur={payload => console.log('did blur', payload)}
+                />
+                {
+                    this.props.is_loading == false ?
+                        <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0, marginTop: 0 }}>
+                            <FlatList
+                                data={this.props.room_list}
+                                showsVerticalScrollIndicator={false}
+                                renderItem={this.renderRow}
+                                keyExtractor={item => item._id}
+                            />
+                        </List>
+                        :
+                        <View style={{
+                            flex: 1,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+                            <ActivityIndicator size="large" color={Colors.grey} />
+                        </View>
+                }
             </View>
         )
     }
+
+    // render() {
+    //     return (
+    //         <View>
+
+    //         </View>
+    //     )
+    // }
 }
 
 function mapStateToProps(ownProps) {

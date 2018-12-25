@@ -4,7 +4,8 @@ remx.registerLoggerForDebug(console.log);
 const initialState = {
     is_loading: null,
     response: null,
-    response_all_user: null
+    response_all_user: null,
+    response_user_on_group: null
 }
 
 const state = remx.state(initialState);
@@ -18,6 +19,9 @@ const setters = remx.setters({
     },
     set_response_all_user(response_all_user) {
         state.response_all_user = response_all_user;
+    },
+    set_response_user_on_group(response_user_on_group) {
+        state.response_user_on_group = response_user_on_group;
     }
 });
 
@@ -30,6 +34,9 @@ const getters = remx.getters({
     },
     get_response_all_user() {
         return state.response_all_user;
+    },
+    get_response_user_on_group() {
+        return state.response_user_on_group;
     }
 });
 
