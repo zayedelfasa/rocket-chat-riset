@@ -57,7 +57,26 @@ export default class EndPointClass {
         return JSON.stringify({ "msg": "method", "method": "login", "id": "42", "params": [{ "user": { "username": username }, "password": password }]});
     }
 
+    socket_login_with_auth(auth_token) {
+        return JSON.stringify({
+            "msg": "method",
+            "method": "login",
+            "id": "42",
+            "params": [
+                { "resume": auth_token }
+            ]
+        });
+    }
+
     socket_ping_rocketchat() {
         return JSON.stringify({ "msg": "ping" });
+    }
+
+    socket_stream_room(id, params) {
+        return JSON.stringify({"msg": "sub","id": id,"name": "stream-room-messages","params":params});
+    }
+
+    socket_send_chat(id, room_group_id, message) {
+        return JSON.stringify({"msg": "method","method": "sendMessage","id": "42","params": [{"_id":id,"rid": room_group_id,"msg": message}]});
     }
 }

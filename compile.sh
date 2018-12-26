@@ -1,3 +1,3 @@
 #!/bin/bash
-adb -d shell input text RR
+adb -e shell input text RR
 

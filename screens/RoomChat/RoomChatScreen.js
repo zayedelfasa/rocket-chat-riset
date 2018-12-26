@@ -10,35 +10,86 @@ import { connect } from 'remx';
 import { Examples, Title, TextInput, Button, Text } from '@shoutem/ui';
 import String_local_storage from '../../configs/String_local_storage';
 import {NavigationEvents} from 'react-navigation';
-const getNameClass = "RoomChatScreen :";
+import { GiftedChat } from "react-native-gifted-chat";
+import * as RoomChatActions from './RoomChatActions';
+const getNameClass = "RoomChatScreen : ";
 
 class RoomChatScreen extends Component {
     constructor(props) {
         super(props);
         const {navigation} = this.props;
+        
         this.state = {
             user_room: "",
-            room_id: navigation.getParam("room_id", null)
+            room_id: navigation.getParam("room_id", null),
+            messages: [],
+            input_text_chat: "",
+            user_id: ""
         }
-        
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const token =  await AsyncStorage.getItem(String_local_storage.user_login_token);
+        const user_id =  await AsyncStorage.getItem(String_local_storage.user_login_id);
+        this.setState({user_id});
         console.log(getNameClass + "component did mount room id 1: " + this.state.room_id);
-        RoomChatStore.set_room_id(this.state.room_id);
-        console.log(getNameClass + "component did mount room id 2: " + RoomChatStore.get_room_id());
+        console.log(getNameClass + "TOKEN : " + token);
+        RoomChatActions.get_initialize_all_store();
+        RoomChatActions.login_chat(token);
+        RoomChatActions.stream_room(this.state.room_id);
+    }
+
+    async onSend(messages = []) {
+        console.log("DATA " + this.state.input_text_chat);
+        RoomChatActions.send_chat(this.state.room_id, this.state.input_text_chat);
+        this.setState(previousState => ({
+            messages: GiftedChat.append(previousState.messages, messages),
+        }))
+    }
+
+    componentWillReceiveProps(newProps) {
+        console.log(getNameClass + " componentWillReceiveProps", newProps);
+        try {
+            if (newProps.msg.user._id != this.state.user_id) {
+                this._storeMessages(newProps.msg);
+            }
+        } catch (error) {
+            // ...
+            console.log(getNameClass+"error: "+error);
+        }
+    }
+
+    _storeMessages(messages) {
+        console.log("DATA MASUK : ", messages);
+        this.setState((previousState) => {
+            return {
+                messages: GiftedChat.append(previousState.messages, messages),
+            };
+        });
+        RoomChatStore.set_message({});        
     }
 
     render() {
         return (
-            <View style={styles.container}></View>
+            <GiftedChat
+                messages={this.state.messages}
+                onSend={messages => this.onSend(messages)}
+                onInputTextChanged={e => {
+                    // console.log(e);
+                    this.setState({ input_text_chat: e })
+                }}
+                user={{
+                    _id: this.state.user_id,
+                }}
+            />
         )
     }
 }
 
 function mapStateToProps(ownProps) {
     return {
-        room_id: RoomChatStore.get_room_id()
+        room_id: RoomChatStore.get_room_id(),
+        msg: RoomChatStore.get_message()
     }
 }
 

@@ -3,16 +3,7 @@ import EndPoint from '../EndPoint/EndPointClass';
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import String_local_storage from '../../configs/String_local_storage';
-import { QueueingSubject } from 'queueing-subject';
-import websocketConnect from 'rxjs-websockets';
-// import {create} from 'apisauce';
-const HomeActions = "HomeActions";
-
-// this subject queues as necessary to ensure every message is delivered
-const input = new QueueingSubject();
-
-// this method returns an object which contains two observables
-const { messages, connectionStatus } = websocketConnect(new EndPoint().websocket_link(), input);
+const HomeActions = "HomeActions : ";
 
 export async function get_room_list(token, user_id) {
     console.log(HomeActions + " token " + token);
