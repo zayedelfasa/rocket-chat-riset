@@ -10,6 +10,7 @@
     "@shoutem/ui": "^0.23.9",
     "apisauce": "^1.0.1",
     "axios": "^0.18.0",
+    "emoji-utils": "^1.0.1",
     "queueing-subject": "^0.3.0",
     "react": "16.6.1",
     "react-native": "0.57.7",

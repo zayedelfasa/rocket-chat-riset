@@ -12,6 +12,8 @@ import String_local_storage from '../../configs/String_local_storage';
 import {NavigationEvents} from 'react-navigation';
 import { GiftedChat } from "react-native-gifted-chat";
 import * as RoomChatActions from './RoomChatActions';
+import emojiUtils from 'emoji-utils';
+import SlackMessage from './SlackMessage';
 const getNameClass = "RoomChatScreen : ";
 
 class RoomChatScreen extends Component {
@@ -69,6 +71,25 @@ class RoomChatScreen extends Component {
         RoomChatStore.set_message({});        
     }
 
+    renderMessage(props) {
+        const { currentMessage: { text: currText } } = props;
+    
+        let messageTextStyle;
+    
+        // Make "pure emoji" messages much bigger than plain text.
+        if (currText && emojiUtils.isPureEmojiString(currText)) {
+          messageTextStyle = {
+            fontSize: 28,
+            // Emoji get clipped if lineHeight isn't increased; make it consistent across platforms.
+            lineHeight: Platform.OS === 'android' ? 34 : 30,
+          };
+        }
+    
+        return (
+          <SlackMessage {...props} messageTextStyle={messageTextStyle} />
+        );
+      }
+
     render() {
         return (
             <GiftedChat
@@ -81,6 +102,8 @@ class RoomChatScreen extends Component {
                 user={{
                     _id: this.state.user_id,
                 }}
+
+                renderMessage={this.renderMessage}
             />
         )
     }
