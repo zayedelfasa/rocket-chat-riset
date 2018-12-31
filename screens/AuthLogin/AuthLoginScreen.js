@@ -23,11 +23,11 @@ class AuthLoginScreen extends Component {
         const userToken = await AsyncStorage.getItem(String_local_storage.is_login);
         console.log("userToken is ", userToken);
 
-        this.props.navigation.navigate("Login");
+        // this.props.navigation.navigate("Login");
 
-        // setTimeout(() => {
-        //     this.props.navigation.navigate(userToken === "login" ? "Home" : "Login");
-        // }, 1000);
+        setTimeout(() => {
+            this.props.navigation.navigate(userToken === "login" ? "Home" : "Login");
+        }, 1000);
     };
 
     // Render any loading content that you like here

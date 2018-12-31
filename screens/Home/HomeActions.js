@@ -3,7 +3,15 @@ import EndPoint from '../EndPoint/EndPointClass';
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import String_local_storage from '../../configs/String_local_storage';
+import { QueueingSubject } from 'queueing-subject';
+import websocketConnect from 'rxjs-websockets';
+import UUIDGenerator from 'react-native-uuid-generator';
+
 const HomeActions = "HomeActions : ";
+
+// this subject queues as necessary to ensure every message is delivered
+// const input = new QueueingSubject();
+// input.next(new EndPoint().socket_ping_rocketchat());
 
 export async function get_room_list(token, user_id) {
     console.log(HomeActions + " token " + token);
