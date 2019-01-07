@@ -8,7 +8,11 @@ import * as LoginActions from './LoginActions';
 import { LoginStore } from './LoginStore';
 import { connect } from 'remx';
 import { Examples, Title, TextInput, Button, Text } from '@shoutem/ui';
+import moment from 'moment';
 const getClassName = "LoginScreen";
+
+// https://stackoverflow.com/questions/35184003/moment-js-convert-milliseconds-into-date-and-time
+// https://stackoverflow.com/questions/31401446/new-date-gettime-is-not-equal-to-moment-valueof-in-momentjs
 
 class LoginScreen extends Component {
     constructor(props) {
@@ -48,7 +52,8 @@ class LoginScreen extends Component {
     }
 
     componentDidMount() {
-
+        var testdate = moment("03-25-2015 +0000", "MM-DD-YYYY Z").valueOf();
+        console.log(getClassName + "exampleDate : " + testdate);
     }
 
     render() {

@@ -7,6 +7,7 @@ const initialState = {
     room_id: null,
     status_success_create_room: null,
     message: {},
+    history_message: []
 }
 
 const state = remx.state(initialState);
@@ -26,6 +27,9 @@ const setters = remx.setters({
     },
     set_message(message) {
         state.message = message;
+    },
+    set_history_message(history_message) {
+        state.history_message = history_message;
     }
 });
 
@@ -44,6 +48,9 @@ const getters = remx.getters({
     },
     get_message() {
         return state.message;
+    },
+    get_history_message() {
+        return state.history_message;
     }
 });
 

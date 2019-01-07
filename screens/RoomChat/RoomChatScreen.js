@@ -14,6 +14,7 @@ import { GiftedChat } from "react-native-gifted-chat";
 import * as RoomChatActions from './RoomChatActions';
 import emojiUtils from 'emoji-utils';
 import SlackMessage from './SlackMessage';
+import moment from 'moment';
 const getNameClass = "RoomChatScreen : ";
 
 class RoomChatScreen extends Component {
@@ -39,6 +40,17 @@ class RoomChatScreen extends Component {
         RoomChatActions.get_initialize_all_store();
         RoomChatActions.login_chat(token);
         RoomChatActions.stream_room(this.state.room_id);
+
+        var testdate = moment("03-25-2015 +0000", "MM-DD-YYYY Z").valueOf();
+
+        var date = moment();
+
+        var datenow = date.format("MM-DD-YYYY Z");
+        var dateminus = date.subtract(1,"days").format("MM-DD-YYYY Z");
+
+        console.log(getNameClass + "exampleDate now : " + moment(datenow.toString() + " +0000", "MM-DD-YYYY Z").valueOf());
+        console.log(getNameClass + "exampleDate lastday : " + moment(dateminus.toString() + " +0000", "MM-DD-YYYY Z").valueOf());
+        RoomChatActions.get_history(this.state.room_id, moment(datenow.toString() + " +0000", "MM-DD-YYYY Z").valueOf(), moment(dateminus.toString() + " +0000", "MM-DD-YYYY Z").valueOf());
     }
 
     async onSend(messages = []) {
@@ -50,14 +62,23 @@ class RoomChatScreen extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        console.log(getNameClass + " componentWillReceiveProps", newProps);
+        console.log(getNameClass + " componentWillReceiveProps ", newProps.history_message.header);
         try {
             if (newProps.msg.user._id != this.state.user_id) {
                 this._storeMessages(newProps.msg);
             }
         } catch (error) {
             // ...
-            console.log(getNameClass+"error: "+error);
+            console.log(getNameClass+"error on user id : "+error);
+        }
+
+        try {
+            console.log("telah melewati try catch");
+            if (newProps.history_message.header == "loadhistorymessage") {
+                console.log("componentWillReceiveProps newProps.history_message in");
+            }
+        } catch(error) {
+            console.log(getNameClass + "error on history message : "+ error);
         }
     }
 
@@ -71,7 +92,7 @@ class RoomChatScreen extends Component {
         RoomChatStore.set_message({});        
     }
 
-    renderMessage(props) {
+    renderMessage(props) { 
         const { currentMessage: { text: currText } } = props;
     
         let messageTextStyle;
@@ -102,7 +123,7 @@ class RoomChatScreen extends Component {
                 user={{
                     _id: this.state.user_id,
                 }}
-
+                
                 renderMessage={this.renderMessage}
             />
         )
@@ -112,7 +133,8 @@ class RoomChatScreen extends Component {
 function mapStateToProps(ownProps) {
     return {
         room_id: RoomChatStore.get_room_id(),
-        msg: RoomChatStore.get_message()
+        msg: RoomChatStore.get_message(),
+        history_message: RoomChatStore.get_history_message()
     }
 }
 

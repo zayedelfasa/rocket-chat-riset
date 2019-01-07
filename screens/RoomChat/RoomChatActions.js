@@ -30,7 +30,7 @@ const messagesSubscription = messages.subscribe((message) => {
     var message_to_json = JSON.parse(message);
     console.log(RoomChatActions+'received message:', message_to_json);
     if (message_to_json.msg == "ping") {
-        input.next(new EndPoint().socket_ping_rocketchat());
+        input.next(new EndPoint().socket_ping_rocketchat()  );
     }
 
     // if (message_to_json.msg == "result") {
@@ -50,6 +50,14 @@ const messagesSubscription = messages.subscribe((message) => {
         }   
         console.log("stream-room-messages ", message);
         RoomChatStore.set_message(message);
+    }
+
+    if(message_to_json.msg == "result") {
+        console.log(RoomChatActions + " message load history in : ");
+        RoomChatStore.set_history_message({
+            header: 'loadhistorymessage',
+            data: message_to_json.result.messages
+        });
     }
 });
 
@@ -80,5 +88,16 @@ export async function get_initialize_all_store() {
     RoomChatStore.set_password(null);
     RoomChatStore.set_room_id(null);
     RoomChatStore.set_status_success_create_room(null);
+}
+
+export async function get_history(room_id, gettime_start, gettime_end) {
+    // console.log(RoomChatActions + " get_history: " + JSON.stringify({
+    //     "msg": "method",
+    //     "method": "loadHistory",
+    //     "id": "42",
+    //     "params": [ room_id , { "$date": gettime_start }, 50, { "$date": gettime_end } ]
+    // }));
+    input.next(new EndPoint().socket_history_chat(room_id, gettime_start, gettime_end));
+    // console.log(RoomChatActions + " get_history: ");
 }
 
