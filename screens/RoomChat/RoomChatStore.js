@@ -7,7 +7,8 @@ const initialState = {
     room_id: null,
     status_success_create_room: null,
     message: {},
-    history_message: []
+    history_message: [],
+    loading_earlier: false
 }
 
 const state = remx.state(initialState);
@@ -30,6 +31,9 @@ const setters = remx.setters({
     },
     set_history_message(history_message) {
         state.history_message = history_message;
+    },
+    set_loading_earlier(loading_earlier) {
+        state.loading_earlier = loading_earlier;
     }
 });
 
@@ -51,6 +55,9 @@ const getters = remx.getters({
     },
     get_history_message() {
         return state.history_message;
+    },
+    get_loading_earlier() {
+        return state.loading_earlier;
     }
 });
 

@@ -65,7 +65,6 @@ export default class Message extends React.Component {
 
   render() {
     const marginBottom = isSameUser(this.props.currentMessage, this.props.nextMessage) ? 2 : 10;
-
     return (
       <View>
         {this.renderDay()}
@@ -82,7 +81,6 @@ export default class Message extends React.Component {
       </View>
     );
   }
-
 }
 
 const styles = StyleSheet.create({

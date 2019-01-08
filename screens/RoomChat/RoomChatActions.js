@@ -88,6 +88,9 @@ export async function get_initialize_all_store() {
     RoomChatStore.set_password(null);
     RoomChatStore.set_room_id(null);
     RoomChatStore.set_status_success_create_room(null);
+    RoomChatStore.set_message({});
+    RoomChatStore.set_history_message([]);
+    RoomChatStore.set_loading_earlier(false);
 }
 
 export async function get_history(room_id, gettime_start, gettime_end) {
