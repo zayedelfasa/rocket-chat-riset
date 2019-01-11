@@ -80,12 +80,21 @@ export default class EndPointClass {
         return JSON.stringify({"msg": "method","method": "sendMessage","id": "42","params": [{"_id":id,"rid": room_group_id,"msg": message}]});
     }
 
-    socket_history_chat(room_id, gettime_start, gettime_end) {
+    socket_history_chat(room_id, gettime_start, gettime_end, count_load_message) {
         return JSON.stringify({
             "msg": "method",
             "method": "loadHistory",
             "id": "42",
-            "params": [ room_id , { "$date": gettime_start }, 50, { "$date": gettime_end } ]
-        })
+            "params": [ room_id , { "$date": gettime_start }, count_load_message, { "$date": gettime_end } ]
+        });
     }
+
+    socket_history_latest_chat(room_id, gettime_end, count_load_message) {
+        return JSON.stringify({
+            "msg": "method",
+            "method": "loadHistory",
+            "id": "42",
+            "params": [ room_id , null, count_load_message, { "$date": gettime_end } ]
+        });
+    } 
 }

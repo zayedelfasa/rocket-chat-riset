@@ -51,8 +51,6 @@ export async function go_back_create_channel() {
     console.log("HAY HAY HAY");
 }
 
-
-
 export async function set_initialize() {
     HomeStore.set_is_loading(null);
     HomeStore.set_room_list(null);

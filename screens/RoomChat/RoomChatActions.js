@@ -53,10 +53,11 @@ const messagesSubscription = messages.subscribe((message) => {
     }
 
     if(message_to_json.msg == "result") {
-        console.log(RoomChatActions + " message load history in : ");
+        console.log(RoomChatActions + " message load history in message_to_json.result.unreadNotLoaded : ", message_to_json.result.unreadNotLoaded);
         RoomChatStore.set_history_message({
             header: 'loadhistorymessage',
-            data: message_to_json.result.messages
+            data: message_to_json.result.messages,
+            unreadNotLoaded: message_to_json.result.unreadNotLoaded
         });
     }
 });
@@ -93,14 +94,18 @@ export async function get_initialize_all_store() {
     RoomChatStore.set_loading_earlier(false);
 }
 
-export async function get_history(room_id, gettime_start, gettime_end) {
+export async function get_history(room_id, gettime_start, gettime_end, count_load_message) {
     // console.log(RoomChatActions + " get_history: " + JSON.stringify({
     //     "msg": "method",
     //     "method": "loadHistory",
     //     "id": "42",
     //     "params": [ room_id , { "$date": gettime_start }, 50, { "$date": gettime_end } ]
     // }));
-    input.next(new EndPoint().socket_history_chat(room_id, gettime_start, gettime_end));
+    input.next(new EndPoint().socket_history_chat(room_id, gettime_start, gettime_end, count_load_message)); 
     // console.log(RoomChatActions + " get_history: ");
+}
+
+export async function get_latest_history(room_id, gettime_end, count_load_message) {
+    input.next(new EndPoint().socket_history_latest_chat(room_id, count_load_message, gettime_end));
 }
 

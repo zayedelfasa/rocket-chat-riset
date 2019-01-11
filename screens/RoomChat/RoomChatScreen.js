@@ -28,7 +28,9 @@ class RoomChatScreen extends Component {
             messages: [],
             input_text_chat: "",
             user_id: "",
-            coba_state: ""
+            coba_state: "",
+            count_load_msg: 0,
+            last_date_history: null
         }
         RoomChatActions.get_initialize_all_store();
     }
@@ -42,24 +44,28 @@ class RoomChatScreen extends Component {
         RoomChatActions.login_chat(token);
         RoomChatActions.stream_room(this.state.room_id);
 
-        var testdate = moment("03-25-2015 +0000", "MM-DD-YYYY Z").valueOf();
-
+        // var testdate = moment("03-25-2015 +0000", "MM-DD-YYYY Z").valueOf();
         var date = moment();
-
         var datenow = date.format("MM-DD-YYYY Z");
         var dateminus = date.subtract(1, "days").format("MM-DD-YYYY Z");
 
+        this.setState({last_date_history: moment(dateminus.toString() + " +0000", "MM-DD-YYYY Z").valueOf()});
+
         console.log(getNameClass + "exampleDate now : " + moment(datenow.toString() + " +0000", "MM-DD-YYYY Z").valueOf());
         console.log(getNameClass + "exampleDate lastday : " + moment(dateminus.toString() + " +0000", "MM-DD-YYYY Z").valueOf());
-        RoomChatActions.get_history(this.state.room_id, moment(datenow.toString() + " +0000", "MM-DD-YYYY Z").valueOf(), moment(dateminus.toString() + " +0000", "MM-DD-YYYY Z").valueOf());
+        // RoomChatActions.get_history(this.state.room_id, moment(datenow.toString() + " +0000", "MM-DD-YYYY Z").valueOf(), moment(dateminus.toString() + " +0000", "MM-DD-YYYY Z").valueOf(), 10);
+        // RoomChatActions.get_history(this.state.room_id, null, moment(dateminus.toString() + " +0000", "MM-DD-YYYY Z").valueOf(), 10);
+        RoomChatActions.get_latest_history(this.state.room_id, moment(dateminus.toString() + " +0000", "MM-DD-YYYY Z").valueOf(), 10);
     }
 
     async onSend(messages = []) {
         console.log("DATA " + this.state.input_text_chat);
         RoomChatActions.send_chat(this.state.room_id, this.state.input_text_chat);
-        this.setState(previousState => ({
-            messages: GiftedChat.append(previousState.messages, messages)
-        }))
+        this.setState((previousState) => {
+            return {
+                messages: GiftedChat.append(previousState.messages, messages)
+            }
+        })
     }
 
     componentWillReceiveProps(newProps) {
@@ -69,7 +75,6 @@ class RoomChatScreen extends Component {
                 this._storeMessages(newProps.msg);
             }
         } catch (error) {
-            // ...
             console.log(getNameClass + "error on user id : " + error);
         }
 
@@ -77,9 +82,12 @@ class RoomChatScreen extends Component {
             console.log("telah melewati try catch");
             if (newProps.history_message.header == "loadhistorymessage") {
                 console.log("componentWillReceiveProps newProps.history_message in");
-                this.setState({ coba_state: "hay hay hay" });
-                console.log("componentWillReceiveProps newProps.history_message data : ", newProps.history_message.data);
+                // this.setState({ coba_state: "hay hay hay" });
+                // console.log("componentWillReceiveProps newProps.history_message data : ", newProps.history_message.data);
+                // console.log("componentWillReceiveProps state coba_state : ", this.state.coba_state);
                 this.format_message(newProps.history_message.data);
+                this.setState({count_load_msg: newProps.history_message.unreadNotLoaded});
+                console.log("componentWillReceiveProps state unreadNotLoaded : ", newProps.history_message.unreadNotLoaded);
             }
         } catch (error) {
             console.log(getNameClass + "error on history message : " + error);
@@ -88,12 +96,16 @@ class RoomChatScreen extends Component {
 
     format_message(history_message) {
         let messages = [];
+
+        console.log("history_message : ", history_message);
+
         for (let i = 0; i < history_message.length; i++) {
             var val = history_message[i];
             var val_msg = {
                 _id: val._id,
                 text: val.msg,
-                createdAt: new Date(),
+                // createdAt: new Date(),
+                createdAt: val.ts.$date,
                 user: {
                     _id: val.u._id,
                     name: val.u.name,
@@ -102,7 +114,12 @@ class RoomChatScreen extends Component {
             }
             messages.push(val_msg);
         }
-        this.setState({ messages });
+        // this.setState({ messages });
+        this.setState((previousState) => {
+            return {
+                messages: GiftedChat.append(previousState.messages, messages)
+            }
+        })
     }
 
     _storeMessages(messages) {
@@ -139,8 +156,16 @@ class RoomChatScreen extends Component {
         setTimeout(() => {
             // this.props.navigation.navigate(userToken === "login" ? "Home" : "Login");
             // this.setState({load_earlier: false});
+            // var testdate = moment("03-25-2015 +0000", "MM-DD-YYYY Z").valueOf();
+            var last_date = moment(this.state.last_date_history, "x").format("DD MMM YYYY hh:mm a");
+            // var date = moment();
+            console.log("FORMAT TANGGAL : " , last_date);
+            var dateminus = moment(last_date).subtract( 1 , "days").format("MM-DD-YYYY Z");
+            RoomChatActions.get_history(this.state.room_id, moment(last_date+ " +0000", "MM-DD-YYYY Z").valueOf() , moment(dateminus.toString() + " +0000", "MM-DD-YYYY Z").valueOf(), 10);
+            this.setState({last_date_history: dateminus});
+            console.log("DATE HISTORY : " , dateminus);             
             RoomChatStore.set_loading_earlier(false);
-        }, 3000);
+        }, 500);
         // return null;
         console.log( getNameClass , " state load_earlier ", this.state.load_earlier);
     }
@@ -167,7 +192,7 @@ class RoomChatScreen extends Component {
                 loadEarlier={true}
                 onLoadEarlier={this.on_load_history}
                 isLoadingEarlier={this.props.load_earlier}
-                renderMessage={this.renderMessage}
+                // renderMessage={this.renderMessage}
             />
         )
     }
