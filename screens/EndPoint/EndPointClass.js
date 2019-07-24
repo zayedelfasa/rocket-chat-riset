@@ -1,7 +1,7 @@
 const endPoint = {
-    http : "https://rnd.clouds.id:3001",
+    http : "https://172.16.6.46:3000:3001",
     // http: "http://172.16.6.46:3000",
-    ws : "ws://rnd.clouds.id:3000/websocket"
+    ws : "ws://172.16.6.46:3000/websocket"
 }
 
 export default class EndPointClass {
