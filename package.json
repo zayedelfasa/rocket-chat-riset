@@ -9,7 +9,7 @@
   "dependencies": {
     "@shoutem/ui": "^0.23.9",
     "apisauce": "^1.0.1",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "emoji-utils": "^1.0.1",
     "moment": "^2.23.0",
     "queueing-subject": "^0.3.0",
