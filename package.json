@@ -11,7 +11,7 @@
     "apisauce": "^1.0.1",
     "axios": "^0.18.0",
     "emoji-utils": "^1.0.1",
-    "moment": "^2.23.0",
+    "moment": "^2.29.4",
     "queueing-subject": "^0.3.0",
     "react": "16.6.1",
     "react-native": "0.57.7",
